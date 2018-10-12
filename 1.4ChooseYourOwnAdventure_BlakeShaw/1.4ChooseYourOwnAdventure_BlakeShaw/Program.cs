@@ -205,7 +205,7 @@ __|||||||||||__
                         } else
                         {
                             Console.WriteLine(grimReaper);
-                            Console.WriteLine("So close to completing the cycle. Why stop now? Perhaps next time.");
+                            Console.WriteLine("So close to completing the cycle, why stop now? Perhaps next time.");
                         }
                         break;
                     } else
