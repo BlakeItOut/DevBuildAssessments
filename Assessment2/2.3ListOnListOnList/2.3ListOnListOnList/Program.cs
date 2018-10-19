@@ -11,6 +11,7 @@ namespace _2._3ListOnListOnList
     {
         static void Main(string[] args)
         {
+            bool ascending = true;
             List<string> listOfString = new List<string> { "alpha", "beta", "gamma" };
             while (true)
             {
@@ -23,7 +24,7 @@ namespace _2._3ListOnListOnList
                         search(listOfString);
                         break;
                     case "o":
-                        order(ref listOfString);
+                        ascending = order(ref listOfString, ascending);
                         break;
                     case "p":
                         print(listOfString);
@@ -57,9 +58,10 @@ namespace _2._3ListOnListOnList
             }
         }
 
-        static void order(ref List<string> listOfString)
+        static bool order(ref List<string> listOfString, bool ascending)
         {
-            listOfString.Sort();
+            listOfString.Sort((a,b)=>(ascending?1:-1)* a.CompareTo(b));
+            return !ascending;
         }
 
         static void print(List<string> listOfString)
