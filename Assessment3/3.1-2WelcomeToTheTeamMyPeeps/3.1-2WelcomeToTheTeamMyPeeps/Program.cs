@@ -19,7 +19,7 @@ namespace _3._1_2WelcomeToTheTeamMyPeeps
         {
             while (true)
             {
-                Console.WriteLine($"Welcome to the Team, My Peeps!\n    1.List people\n    2.Add person\n    3.Add team member\n    4.Add a random person\n    5.Add random team member\n    6.Quit");
+                Console.WriteLine($"Welcome to the Team, My Peeps!\n    1.List people\n    2.Add person\n    3.Add team member\n    4.Add random person\n    5.Add random team member\n    6.Quit");
                 switch (Validator.promptUser("What would you like to do? ", (num => num == "1" || num == "2" || num == "3" || num == "4" || num == "5" || num == "6")))
                 {
                     case "1":
