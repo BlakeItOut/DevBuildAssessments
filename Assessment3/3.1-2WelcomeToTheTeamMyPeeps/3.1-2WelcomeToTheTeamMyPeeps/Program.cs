@@ -9,10 +9,12 @@ namespace _3._1_2WelcomeToTheTeamMyPeeps
 {
     class Program
     {
+        #region Intializing usable objects and collection
         static List<Person> _people = new List<Person>();
         static Random random = new Random();
         static PersonNameGenerator personNameGenerator = new PersonNameGenerator();
-        static PlaceNameGenerator placeNameGenerator = new PlaceNameGenerator(); 
+        static PlaceNameGenerator placeNameGenerator = new PlaceNameGenerator();
+        #endregion
         static void Main(string[] args)
         {
             while (true)
@@ -63,10 +65,7 @@ namespace _3._1_2WelcomeToTheTeamMyPeeps
             ((TeamMember)(object)_people[_people.Count - 1]).Address = placeNameGenerator.GenerateRandomPlaceName();
         }
 
-        static void _listPeople ()
-        {
-            _people.ForEach(person => Console.WriteLine(person.ToString()));
-        }
+        static void _listPeople () => _people.ForEach(person => Console.WriteLine(person.ToString()));
         static void _addPerson(string firstName, string lastName, int age, string emailAddress) => _addPerson(new Person(firstName, lastName, age, emailAddress));
         static void _addTeamMember(string firstName, string lastName, int age, string emailAddress, double salary) => _addPerson(new TeamMember(firstName, lastName, age, emailAddress, salary));
         static void _addPerson (Person person)
@@ -74,6 +73,7 @@ namespace _3._1_2WelcomeToTheTeamMyPeeps
             if(person.Over18())
             {
                 _people.Add(person);
+                Console.WriteLine(person.ToString());
             }
             else
             {
@@ -92,7 +92,7 @@ namespace _3._1_2WelcomeToTheTeamMyPeeps
         static TeamMember _makeTeamMember()
         {
             Person person = _makePerson();
-            double salary = double.Parse(Validator.promptUser("How much does the team member make?? ", (num => double.TryParse(num, out salary) && salary >= 0)));
+            double salary = double.Parse(Validator.promptUser("How much does the team member make? ", (num => double.TryParse(num, out salary) && salary >= 0)));
             TeamMember teamMember = new TeamMember(person.FirstName, person.LastName, person.Age, person.EmailAddress, salary);
             teamMember.Address = Validator.promptUser("Where is the team member? ", (str => !String.IsNullOrWhiteSpace(str)));
             return teamMember;
