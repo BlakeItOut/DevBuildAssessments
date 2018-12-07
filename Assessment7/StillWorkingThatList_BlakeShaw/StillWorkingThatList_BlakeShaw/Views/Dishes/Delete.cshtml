@@ -1,0 +1,64 @@
+﻿@model StillWorkingThatList_BlakeShaw.Models.Dish
+
+@{
+    ViewBag.Title = "Remove Dish";
+}
+
+<h2>Remove Dish</h2>
+
+<h3>Are you sure you want to remove this dish?</h3>
+<div>
+    <h4>Dish</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PersonName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PersonName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DishName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DishName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DishDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DishDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Option)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Option)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Remove" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

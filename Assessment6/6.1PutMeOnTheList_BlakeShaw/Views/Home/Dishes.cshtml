@@ -1,7 +1,14 @@
-﻿
+﻿@model PutMeOnTheList_BlakeShaw.Models.Dish
 @{
     ViewData["Title"] = "Dishes";
 }
 
 <h2>Dishes</h2>
 
+<p>Name: @Model.Name</p>
+<p>Phone Number: @Model.PhoneNumber</p>
+<p>Dish: @Model.DishName</p>
+<p>Description: @Model.DishDescription</p>
+<p>
+    Note: @string.Join(", ",Model.DishOptions)
+</p>

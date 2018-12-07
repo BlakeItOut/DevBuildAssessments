@@ -1,7 +1,7 @@
-﻿@model PutMeOnTheList_BlakeShaw.Models.ViewModel
+﻿@model StillWorkingThatList_BlakeShaw.Models.ViewModel
 
-@Html.Partial("_AttendeeForm", Model.Attendee)
-@Html.Partial("_DishForm", Model.Dish)
+@Html.Partial("~/Views/Shared/_GuestForm.cshtml", Model.Guest)
+@Html.Partial("~/Views/Shared/_DishForm.cshtml", Model.Dish)
 @{
     ViewData["Title"] = "Home Page";
 }

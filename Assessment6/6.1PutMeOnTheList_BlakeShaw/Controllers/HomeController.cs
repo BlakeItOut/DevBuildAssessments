@@ -12,7 +12,8 @@ namespace _6._1PutMeOnTheList_BlakeShaw.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            var model = new ViewModel() { Attendee = new Attendee(), Dish = new Dish() };
+            return View(model);
         }
 
         public IActionResult Attendees(Attendee attendee)

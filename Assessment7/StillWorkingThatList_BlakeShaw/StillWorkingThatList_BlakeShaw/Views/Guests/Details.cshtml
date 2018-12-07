@@ -1,0 +1,66 @@
+﻿@model StillWorkingThatList_BlakeShaw.Models.Guest
+
+@{
+    ViewBag.Title = "Attendee Details";
+}
+
+<h2>Attendee Details</h2>
+
+<div>
+    <h4>Guest</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Dish.PersonName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Dish.PersonName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AttendanceDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AttendanceDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmailAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmailAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Guest1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Guest1)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.GuestID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

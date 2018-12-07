@@ -1,0 +1,96 @@
+﻿@model StillWorkingThatList_BlakeShaw.Models.Guest
+
+<!--=====================================
+        REGISTER FORM MODAL
+       =====================================-->
+<div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="register form" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="registerTitle">Register for Jingle & Mingle</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("Create", "Guests", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    <h4>Guest</h4>
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EmailAddress, htmlAttributes: new { @class = "control-label col-md" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <label class="control-label col-md" for="Attending">Will You Be Attending:</label>
+                        <div class="col-md-10">
+                            <input type="radio" name="Attending" id="Yes" value="Yes" />
+                            <label for="Yes">Yes</label>
+                            <input type="radio" name="Attending" id="No " value="No" />
+                            <label for="No">No</label>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-warning alert-dismissible fade show my-3" role="alert" id="notAttending">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <strong>Farewell!</strong> Have a great holiday season.
+                    </div>
+                    
+                    <fieldset id="attendeeQuestions">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.AttendanceDate, htmlAttributes: new { @class = "control-label col-md" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.AttendanceDate, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.AttendanceDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Guest1, htmlAttributes: new { @class = "control-label col-md" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Guest1, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Guest1, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Create" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+

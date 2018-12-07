@@ -1,0 +1,109 @@
+﻿@model StillWorkingThatList_BlakeShaw.Models.Dish
+
+<!--=====================================
+        DISH FORM MODAL
+       =====================================-->
+<div class="modal fade" id="dish" tabindex="-1" role="dialog" aria-labelledby="register form" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="dishTitle">Bring A Dish</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("Create", "Dishes", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        <h4>Dish</h4>
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PersonName, htmlAttributes: new { @class = "control-label col-md" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.PersonName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.PersonName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DishName, htmlAttributes: new { @class = "control-label col-md" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.DishName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.DishName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DishDescription, htmlAttributes: new { @class = "control-label col-md" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.DishDescription, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.DishDescription, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Option, htmlAttributes: new { @class = "control-label col-md" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Option, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Option, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Create" class="btn btn-default" />
+                            </div>
+                        </div>
+                    </div>
+                }
+                @*<!-- dish form -->
+        @using (Html.BeginForm("Dishes", "Home", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken();
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+            <h5 class="mb-4">Basic Info</h5>
+            <div class="form-group">
+                <label class="form-control-label" for="name">Name:</label>
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control", type = "text", required = "required" })
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" for="phoneNumber">Phone Number:</label>
+                @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", type = "tel", required = "required" })
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" for="dishName">Dish Name:</label>
+                @Html.TextBoxFor(m => m.DishName, new { @class = "form-control", type = "text", required = "required" })
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" for="dishDescription">Dish Description:</label>
+                @Html.TextAreaFor(m => m.DishDescription, 5, 10, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" for="dietOptions">Select:</label>
+                @Html.ListBoxFor(m => m.DishOptions, new List<SelectListItem>
+                { new SelectListItem{Text="Vegan", Value="Vegan"},
+                  new SelectListItem{Text="Vegetarian", Value="Vegetarian"},
+                  new SelectListItem{Text="Gluten-Free", Value="Gluten-Free"},
+                  new SelectListItem{Text="Has Nuts", Value="Has Nuts"}
+                },
+                  new { @class = "form-control"})
+            </div>
+            <hr class="mb-4">
+            <button type="submit" class="btn btn-primary btn-lg">Dish</button>
+        }<!-- /dish form -->*@
+            </div>
+        </div>
+    </div>
+</div>

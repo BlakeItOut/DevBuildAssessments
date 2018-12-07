@@ -1,0 +1,71 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@model PutMeOnTheList_BlakeShaw.Models.Attendee
+
+<!--=====================================
+        REGISTER FORM MODAL
+       =====================================-->
+<div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="register form" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="registerTitle">Register for Jingle & Mingle</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- registration form -->
+                @using (Html.BeginForm("Attendees", "Home", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken();
+                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                    <h5 class="mb-4">Basic Info</h5>
+                    <div class="form-group">
+                        <label class="form-control-label" for="firstName">First Name:</label>
+                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", type = "text", required = "required" })
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label" for="lastName">Last Name:</label>
+                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", type = "text", required = "required" })
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label" for="email">Email:</label>
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", type = "email", required = "required" })
+                    </div>
+                    <hr class="my-4">
+                    <div class="form-group mt-3">
+                        <label for="date">Will You Be Attending:</label>
+                        @Html.DropDownListFor(m => m.Attending, new List<SelectListItem>
+                        { new SelectListItem{Text="Yes", Value="yes"},
+                          new SelectListItem{Text="No", Value="no"}},
+                        "Please select", new { @class = "form-control"})
+                    </div>
+                    <div class="alert alert-warning alert-dismissible fade show my-3" role="alert" id="notAttending">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <strong>Farewell!</strong> Have a great holiday season.
+                    </div>
+                    <fieldset id="attendeeQuestions">
+                        <div class="form-group mt-3">
+                            <label for="date">Preferred Date:</label>
+                            @Html.DropDownListFor(m => m.Date, new                 List<SelectListItem>
+                            { new SelectListItem{Text="Friday, December 14th", Value="Friday, December 14th"},
+                              new SelectListItem{Text="Saturday, December 15th", Value="Saturday, December 15th"}},
+                            "Please select", new { @class = "form-control"})
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" for="guestName">Guest Name (leave blank if n/a):</label>
+                            @Html.TextBoxFor(m => m.GuestName, new { @class = "form-control", type = "text" })
+                        </div>
+                    </fieldset>
+                    <hr class="mb-4">
+                    <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                }<!-- /registration form -->
+            </div>
+        </div>
+    </div>
+</div>
