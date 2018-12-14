@@ -7,45 +7,45 @@
     <Schema Namespace="PartyDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Dish">
           <Key>
-            <PropertyRef Name="DishID" />
+            <PropertyRef Name="DishId" />
           </Key>
-          <Property Name="DishID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DishId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PersonName" Type="nvarchar" MaxLength="50" />
           <Property Name="PhoneNumber" Type="nvarchar" MaxLength="24" />
           <Property Name="DishName" Type="nvarchar" MaxLength="50" />
           <Property Name="DishDescription" Type="nvarchar" MaxLength="100" />
-          <Property Name="Option" Type="nvarchar" MaxLength="20" />
+          <Property Name="Catagory" Type="nvarchar" MaxLength="20" />
+          <Property Name="GuestId" Type="int" />
         </EntityType>
         <EntityType Name="Guest">
           <Key>
-            <PropertyRef Name="GuestID" />
+            <PropertyRef Name="GuestId" />
           </Key>
-          <Property Name="GuestID" Type="int" Nullable="false" />
+          <Property Name="GuestId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
           <Property Name="LastName" Type="nvarchar" MaxLength="50" />
           <Property Name="AttendanceDate" Type="datetime" />
           <Property Name="EmailAddress" Type="nvarchar" MaxLength="50" />
           <Property Name="Guest" Type="nvarchar" MaxLength="50" />
-          <Property Name="DishID" Type="int" />
         </EntityType>
-        <Association Name="FK_Guest_Dish">
-          <End Role="Dish" Type="Self.Dish" Multiplicity="0..1" />
-          <End Role="Guest" Type="Self.Guest" Multiplicity="*" />
+        <Association Name="FK_Dish_Guest">
+          <End Role="Guest" Type="Self.Guest" Multiplicity="0..1" />
+          <End Role="Dish" Type="Self.Dish" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Dish">
-              <PropertyRef Name="DishID" />
+            <Principal Role="Guest">
+              <PropertyRef Name="GuestId" />
             </Principal>
-            <Dependent Role="Guest">
-              <PropertyRef Name="DishID" />
+            <Dependent Role="Dish">
+              <PropertyRef Name="GuestId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="PartyDBModelStoreContainer">
           <EntitySet Name="Dish" EntityType="Self.Dish" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Guest" EntityType="Self.Guest" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Guest_Dish" Association="Self.FK_Guest_Dish">
-            <End Role="Dish" EntitySet="Dish" />
+          <AssociationSet Name="FK_Dish_Guest" Association="Self.FK_Dish_Guest">
             <End Role="Guest" EntitySet="Guest" />
+            <End Role="Dish" EntitySet="Dish" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -54,47 +54,47 @@
       <Schema Namespace="PartyDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Dish">
           <Key>
-            <PropertyRef Name="DishID" />
+            <PropertyRef Name="DishId" />
           </Key>
-          <Property Name="DishID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DishId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PersonName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="PhoneNumber" Type="String" MaxLength="24" FixedLength="false" Unicode="true" />
           <Property Name="DishName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DishDescription" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Option" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Guests" Relationship="Self.FK_Guest_Dish" FromRole="Dish" ToRole="Guest" />
+          <Property Name="Catagory" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="GuestId" Type="Int32" />
+          <NavigationProperty Name="Guest" Relationship="Self.FK_Dish_Guest" FromRole="Dish" ToRole="Guest" />
         </EntityType>
         <EntityType Name="Guest">
           <Key>
-            <PropertyRef Name="GuestID" />
+            <PropertyRef Name="GuestId" />
           </Key>
-          <Property Name="GuestID" Type="Int32" Nullable="false" />
+          <Property Name="GuestId" Type="Int32" Nullable="false" />
           <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="AttendanceDate" Type="DateTime" Precision="3" />
           <Property Name="EmailAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Guest1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DishID" Type="Int32" />
-          <NavigationProperty Name="Dish" Relationship="Self.FK_Guest_Dish" FromRole="Guest" ToRole="Dish" />
+          <NavigationProperty Name="Dishes" Relationship="Self.FK_Dish_Guest" FromRole="Guest" ToRole="Dish" />
         </EntityType>
-        <Association Name="FK_Guest_Dish">
-          <End Role="Dish" Type="Self.Dish" Multiplicity="0..1" />
-          <End Role="Guest" Type="Self.Guest" Multiplicity="*" />
+        <Association Name="FK_Dish_Guest">
+          <End Role="Guest" Type="Self.Guest" Multiplicity="0..1" />
+          <End Role="Dish" Type="Self.Dish" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Dish">
-              <PropertyRef Name="DishID" />
+            <Principal Role="Guest">
+              <PropertyRef Name="GuestId" />
             </Principal>
-            <Dependent Role="Guest">
-              <PropertyRef Name="DishID" />
+            <Dependent Role="Dish">
+              <PropertyRef Name="GuestId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="PartyDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Dishes" EntityType="Self.Dish" />
           <EntitySet Name="Guests" EntityType="Self.Guest" />
-          <AssociationSet Name="FK_Guest_Dish" Association="Self.FK_Guest_Dish">
-            <End Role="Dish" EntitySet="Dishes" />
+          <AssociationSet Name="FK_Dish_Guest" Association="Self.FK_Dish_Guest">
             <End Role="Guest" EntitySet="Guests" />
+            <End Role="Dish" EntitySet="Dishes" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -106,25 +106,25 @@
           <EntitySetMapping Name="Dishes">
             <EntityTypeMapping TypeName="PartyDBModel.Dish">
               <MappingFragment StoreEntitySet="Dish">
-                <ScalarProperty Name="DishID" ColumnName="DishID" />
+                <ScalarProperty Name="DishId" ColumnName="DishId" />
                 <ScalarProperty Name="PersonName" ColumnName="PersonName" />
                 <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
                 <ScalarProperty Name="DishName" ColumnName="DishName" />
                 <ScalarProperty Name="DishDescription" ColumnName="DishDescription" />
-                <ScalarProperty Name="Option" ColumnName="Option" />
+                <ScalarProperty Name="Catagory" ColumnName="Catagory" />
+                <ScalarProperty Name="GuestId" ColumnName="GuestId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Guests">
             <EntityTypeMapping TypeName="PartyDBModel.Guest">
               <MappingFragment StoreEntitySet="Guest">
-                <ScalarProperty Name="GuestID" ColumnName="GuestID" />
+                <ScalarProperty Name="GuestId" ColumnName="GuestId" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="AttendanceDate" ColumnName="AttendanceDate" />
                 <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
                 <ScalarProperty Name="Guest1" ColumnName="Guest" />
-                <ScalarProperty Name="DishID" ColumnName="DishID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

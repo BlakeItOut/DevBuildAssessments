@@ -1,4 +1,6 @@
-﻿@model IEnumerable<StillWorkingThatList_BlakeShaw.Models.Guest>
+﻿@model PagedList.IPagedList<StillWorkingThatList_BlakeShaw.Models.Guest>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "Attendees";
@@ -6,56 +8,63 @@
 
 <h2>Attendees</h2>
 
-<form asp-controller="Guests" asp-action="Index">
+@using (Html.BeginForm("Index", "Guests", FormMethod.Get))
+{
     <p>
-        <input type="text" name="SearchString">
+        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
         <input type="submit" value="Search" />
     </p>
-</form>
+}
 
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.FirstName)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().FirstName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LastName)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().LastName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AttendanceDate)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().AttendanceDate)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.EmailAddress)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().EmailAddress)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Guest1)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Guest1)
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AttendanceDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EmailAddress)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Guest1)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.GuestID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.GuestID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.GuestID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AttendanceDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmailAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Guest1)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.GuestId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.GuestId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.GuestId })
+            </td>
+        </tr>
+    }
 
 </table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, currentFilter = ViewBag.CurrentFilter }))

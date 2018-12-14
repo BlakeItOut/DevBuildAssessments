@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 using StillWorkingThatList_BlakeShaw.Models;
 
 namespace StillWorkingThatList_BlakeShaw.Controllers
@@ -15,8 +16,18 @@ namespace StillWorkingThatList_BlakeShaw.Controllers
         private StillWorkingThatList_BlakeShawContext db = new StillWorkingThatList_BlakeShawContext();
 
         // GET: Guests
-        public ActionResult Index(string searchString)
+        public ActionResult Index(string currentFilter, string searchString, int? page)
         {
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+
             var guests = from g in db.Guests
                          select g;
 
@@ -25,7 +36,9 @@ namespace StillWorkingThatList_BlakeShaw.Controllers
                 guests = guests
                             .Where(a => a.FirstName.Contains(searchString) || a.LastName.Contains(searchString) || a.Guest1.Contains(searchString));
             }
-            return View(guests.ToList());
+            int pageSize = 2;
+            int pageNumber = (page ?? 1);
+            return View(guests.OrderBy(g => g.FirstName).ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Guests/Details/5
@@ -54,7 +67,7 @@ namespace StillWorkingThatList_BlakeShaw.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "GuestID,FirstName,LastName,AttendanceDate,EmailAddress,Guest1,DishID")] Guest guest, string Attending)
+        public ActionResult Create([Bind(Include = "GuestId,FirstName,LastName,AttendanceDate,EmailAddress,Guest1")] Guest guest, string Attending)
         {
             if (ModelState.IsValid)
             {
@@ -62,7 +75,8 @@ namespace StillWorkingThatList_BlakeShaw.Controllers
                 {
                     db.Guests.Add(guest);
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+                    TempData["Guest"] = guest;
+                    return RedirectToAction("Create", "Dishes");
                 }
                 else
                 {
@@ -71,7 +85,6 @@ namespace StillWorkingThatList_BlakeShaw.Controllers
                 
             }
 
-            ViewBag.DishID = new SelectList(db.Dishes, "DishID", "PersonName", guest.DishID);
             return View(guest);
         }
 
@@ -87,7 +100,6 @@ namespace StillWorkingThatList_BlakeShaw.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.DishID = new SelectList(db.Dishes, "DishID", "PersonName", guest.DishID);
             return View(guest);
         }
 
@@ -96,7 +108,7 @@ namespace StillWorkingThatList_BlakeShaw.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "GuestID,FirstName,LastName,AttendanceDate,EmailAddress,Guest1,DishID")] Guest guest)
+        public ActionResult Edit([Bind(Include = "GuestId,FirstName,LastName,AttendanceDate,EmailAddress,Guest1")] Guest guest)
         {
             if (ModelState.IsValid)
             {
@@ -104,7 +116,6 @@ namespace StillWorkingThatList_BlakeShaw.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.DishID = new SelectList(db.Dishes, "DishID", "PersonName", guest.DishID);
             return View(guest);
         }
 

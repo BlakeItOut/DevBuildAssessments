@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 using StillWorkingThatList_BlakeShaw.Models;
 
 namespace StillWorkingThatList_BlakeShaw.Controllers
@@ -15,17 +16,30 @@ namespace StillWorkingThatList_BlakeShaw.Controllers
         private StillWorkingThatList_BlakeShawContext db = new StillWorkingThatList_BlakeShawContext();
 
         // GET: Dishes
-        public ActionResult Index(string searchString)
+        public ActionResult Index(string currentFilter, string searchString, int? page)
         {
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
             var dishes = from d in db.Dishes
                          select d;
 
             if (!String.IsNullOrEmpty(searchString))
             {
                 dishes = dishes
-                            .Where(a => a.DishName.Contains(searchString) || a.DishDescription.Contains(searchString) || a.Option.Contains(searchString));
+                            .Where(a => a.DishName.Contains(searchString) || a.DishDescription.Contains(searchString) || a.Catagory.Contains(searchString));
             }
-            return View(dishes.ToList());
+
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+            return View(dishes.OrderBy(d => d.DishName).ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Dishes/Details/5
@@ -46,6 +60,16 @@ namespace StillWorkingThatList_BlakeShaw.Controllers
         // GET: Dishes/Create
         public ActionResult Create()
         {
+            if(TempData.ContainsKey("Guest"))
+            {
+                Guest guest = (Guest)TempData["Guest"];
+                var dish = new Dish()
+                {
+                    PersonName = $"{guest.FirstName} {guest.LastName}",
+                    GuestId = guest.GuestId
+                };
+                return View(dish);
+            }
             return View();
         }
 
@@ -54,7 +78,7 @@ namespace StillWorkingThatList_BlakeShaw.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "DishID,PersonName,PhoneNumber,DishName,DishDescription,Option")] Dish dish)
+        public ActionResult Create([Bind(Include = "DishId,PersonName,PhoneNumber,DishName,DishDescription,Catagory,GuestId")] Dish dish)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +110,7 @@ namespace StillWorkingThatList_BlakeShaw.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "DishID,PersonName,PhoneNumber,DishName,DishDescription,Option")] Dish dish)
+        public ActionResult Edit([Bind(Include = "DishId,PersonName,PhoneNumber,DishName,DishDescription,Catagory,GuestId")] Dish dish)
         {
             if (ModelState.IsValid)
             {
