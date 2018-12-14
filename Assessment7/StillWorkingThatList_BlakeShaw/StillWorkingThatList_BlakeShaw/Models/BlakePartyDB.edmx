@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="PartyDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BlakePartyDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Dish">
           <Key>
             <PropertyRef Name="DishId" />
@@ -40,7 +40,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="PartyDBModelStoreContainer">
+        <EntityContainer Name="BlakePartyDBModelStoreContainer">
           <EntitySet Name="Dish" EntityType="Self.Dish" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Guest" EntityType="Self.Guest" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Dish_Guest" Association="Self.FK_Dish_Guest">
@@ -51,7 +51,15 @@
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="PartyDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="BlakePartyDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="BlakePartyDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Dishes" EntityType="BlakePartyDBModel.Dish" />
+          <EntitySet Name="Guests" EntityType="BlakePartyDBModel.Guest" />
+          <AssociationSet Name="FK_Dish_Guest" Association="BlakePartyDBModel.FK_Dish_Guest">
+            <End Role="Guest" EntitySet="Guests" />
+            <End Role="Dish" EntitySet="Dishes" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Dish">
           <Key>
             <PropertyRef Name="DishId" />
@@ -63,23 +71,23 @@
           <Property Name="DishDescription" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Catagory" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="GuestId" Type="Int32" />
-          <NavigationProperty Name="Guest" Relationship="Self.FK_Dish_Guest" FromRole="Dish" ToRole="Guest" />
+          <NavigationProperty Name="Guest" Relationship="BlakePartyDBModel.FK_Dish_Guest" FromRole="Dish" ToRole="Guest" />
         </EntityType>
         <EntityType Name="Guest">
           <Key>
             <PropertyRef Name="GuestId" />
           </Key>
-          <Property Name="GuestId" Type="Int32" Nullable="false" />
+          <Property Name="GuestId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="AttendanceDate" Type="DateTime" Precision="3" />
           <Property Name="EmailAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Guest1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Dishes" Relationship="Self.FK_Dish_Guest" FromRole="Guest" ToRole="Dish" />
+          <NavigationProperty Name="Dishes" Relationship="BlakePartyDBModel.FK_Dish_Guest" FromRole="Guest" ToRole="Dish" />
         </EntityType>
         <Association Name="FK_Dish_Guest">
-          <End Role="Guest" Type="Self.Guest" Multiplicity="0..1" />
-          <End Role="Dish" Type="Self.Dish" Multiplicity="*" />
+          <End Type="BlakePartyDBModel.Guest" Role="Guest" Multiplicity="0..1" />
+          <End Type="BlakePartyDBModel.Dish" Role="Dish" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Guest">
               <PropertyRef Name="GuestId" />
@@ -89,48 +97,39 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="PartyDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Dishes" EntityType="Self.Dish" />
-          <EntitySet Name="Guests" EntityType="Self.Guest" />
-          <AssociationSet Name="FK_Dish_Guest" Association="Self.FK_Dish_Guest">
-            <End Role="Guest" EntitySet="Guests" />
-            <End Role="Dish" EntitySet="Dishes" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="PartyDBModelStoreContainer" CdmEntityContainer="PartyDBEntities">
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="BlakePartyDBModelStoreContainer" CdmEntityContainer="BlakePartyDBEntities">
           <EntitySetMapping Name="Dishes">
-            <EntityTypeMapping TypeName="PartyDBModel.Dish">
+            <EntityTypeMapping TypeName="BlakePartyDBModel.Dish">
               <MappingFragment StoreEntitySet="Dish">
-                <ScalarProperty Name="DishId" ColumnName="DishId" />
-                <ScalarProperty Name="PersonName" ColumnName="PersonName" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="DishName" ColumnName="DishName" />
-                <ScalarProperty Name="DishDescription" ColumnName="DishDescription" />
-                <ScalarProperty Name="Catagory" ColumnName="Catagory" />
                 <ScalarProperty Name="GuestId" ColumnName="GuestId" />
+                <ScalarProperty Name="Catagory" ColumnName="Catagory" />
+                <ScalarProperty Name="DishDescription" ColumnName="DishDescription" />
+                <ScalarProperty Name="DishName" ColumnName="DishName" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PersonName" ColumnName="PersonName" />
+                <ScalarProperty Name="DishId" ColumnName="DishId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Guests">
-            <EntityTypeMapping TypeName="PartyDBModel.Guest">
+            <EntityTypeMapping TypeName="BlakePartyDBModel.Guest">
               <MappingFragment StoreEntitySet="Guest">
-                <ScalarProperty Name="GuestId" ColumnName="GuestId" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="AttendanceDate" ColumnName="AttendanceDate" />
-                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
                 <ScalarProperty Name="Guest1" ColumnName="Guest" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="AttendanceDate" ColumnName="AttendanceDate" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="GuestId" ColumnName="GuestId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
         </EntityContainerMapping>
-      </Mapping>
-    </edmx:Mappings>
+</Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
@@ -144,7 +143,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="true" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
-        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>

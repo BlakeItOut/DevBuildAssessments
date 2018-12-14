@@ -15,7 +15,7 @@ namespace StillWorkingThatList_BlakeShaw.Models
         // For more information refer to the documentation:
         // http://msdn.microsoft.com/en-us/data/jj591621.aspx
     
-        public StillWorkingThatList_BlakeShawContext() : base("name=PartyDBEntities")
+        public StillWorkingThatList_BlakeShawContext() : base("name=BlakePartyDBEntities")
         {
         }
 

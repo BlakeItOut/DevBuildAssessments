@@ -13,10 +13,10 @@ namespace StillWorkingThatList_BlakeShaw.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class PartyDBEntities : DbContext
+    public partial class BlakePartyDBEntities : DbContext
     {
-        public PartyDBEntities()
-            : base("name=PartyDBEntities")
+        public BlakePartyDBEntities()
+            : base("name=BlakePartyDBEntities")
         {
         }
     

@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\bshaw\Source\Repos\DevBuildAssessments\Assessment7\StillWorkingThatList_BlakeShaw\StillWorkingThatList_BlakeShaw\Models\PartyDB.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\bshaw\source\repos\DevBuildAssessments\Assessment7\StillWorkingThatList_BlakeShaw\StillWorkingThatList_BlakeShaw\Models\BlakePartyDB.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.
