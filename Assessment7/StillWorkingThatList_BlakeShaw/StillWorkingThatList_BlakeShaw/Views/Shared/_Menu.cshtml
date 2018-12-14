@@ -1,0 +1,45 @@
+﻿@using Microsoft.AspNet.Identity
+
+@helper GetButtonVisibility(string controller, string action = null)
+{
+    if ((string)ViewContext.RouteData.Values["controller"] == controller && (action == null || (string)ViewContext.RouteData.Values["action"] == action))
+    {
+        <text>hidden</text>
+    }
+    else
+    {
+        <text>visible</text>
+    }
+}
+
+<div class="navbar-right">
+    @if (Request.IsAuthenticated)
+    {
+        <a href="@Url.Action("Create", "Dishes")"
+           style="visibility: @GetButtonVisibility("Dishes", "Create")"
+           class="btn btn-success navbar-btn">
+            Add A Dish
+        </a>
+        using (Html.BeginForm("SignOut", "Identity", FormMethod.Post, new { @class = "navbar-right" }))
+        {
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-danger navbar-btn">
+                Sign Out @User.Identity.GetUserName()
+            </button>
+        }
+    }
+    else
+    {
+        <a href="@Url.Action("Register", "Identity")"
+           style="visibility: @GetButtonVisibility("Identity")"
+           class="btn btn-success navbar-btn">
+            Register
+        </a>
+        <a href="@Url.Action("Login", "Identity")"
+           style="visibility: @GetButtonVisibility("Identity")"
+           class="btn btn-danger navbar-btn">
+            Login
+        </a>
+    }
+
+</div>

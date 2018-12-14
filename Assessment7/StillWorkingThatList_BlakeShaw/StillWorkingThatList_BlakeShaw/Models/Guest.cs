@@ -26,6 +26,7 @@ namespace StillWorkingThatList_BlakeShaw.Models
         public Nullable<System.DateTime> AttendanceDate { get; set; }
         public string EmailAddress { get; set; }
         public string Guest1 { get; set; }
+        public bool Attending { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Dish> Dishes { get; set; }

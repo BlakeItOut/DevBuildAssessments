@@ -12,10 +12,6 @@
     <!-- navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
         <div class="container">
-            <h5 class="navbar-brand order-1 mr-3">
-                Hello @User.Identity.Name!
-            </h5>
-            @*<a class="navbar-brand order-1 mr-0" href="https://www.quickenloans.com" target="_blank">Presented by Quicken Loans</a>*@
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -24,11 +20,10 @@
                     <a class="nav-item nav-link" href="~/Home">Home <span class="sr-only">(current)</span></a>
                     <a class="nav-item nav-link" href="~/Guests/">Attendees</a>
                     <a class="nav-item nav-link" href="~/Dishes/">Dishes</a>
-                    <a class="nav-item nav-link" href="~/Identity/Register">Register</a>
-                    <a class="nav-item nav-link" href="~/Identity/Login">Login</a>
                 </div>
-                
+
             </div>
+            @Html.Partial("_Menu")
         </div>
     </nav><!-- /navbar -->
 

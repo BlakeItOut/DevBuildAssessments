@@ -23,11 +23,12 @@ namespace StillWorkingThatList_BlakeShaw.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Register(RegistrationViewModel newUser)
         {
             if (ModelState.IsValid)
             {
-                var guest = new Guest() { FirstName = newUser.FirstName, LastName = newUser.LastName, AttendanceDate = newUser.AttendanceDate, EmailAddress = newUser.EmailAddress, Guest1 = newUser.Guest1 };
+                var guest = new Guest() { FirstName = newUser.FirstName, LastName = newUser.LastName, AttendanceDate = newUser.AttendanceDate, EmailAddress = newUser.EmailAddress, Guest1 = newUser.Guest1, Attending = (newUser.Attending == "Yes") };
                 _context.Guests.Add(guest);
                 _context.SaveChanges();
                 if (newUser.Attending == "Yes")
@@ -52,7 +53,7 @@ namespace StillWorkingThatList_BlakeShaw.Controllers
                     return RedirectToAction("Index", "Home");
                 }
             }
-            return View();
+            return View(newUser);
         }
 
         // GET: Login
@@ -62,6 +63,7 @@ namespace StillWorkingThatList_BlakeShaw.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Login(LoginViewModel guest)
         {
             if (ModelState.IsValid)
@@ -76,7 +78,17 @@ namespace StillWorkingThatList_BlakeShaw.Controllers
                 }
             }
             ModelState.AddModelError("", "Invalid username or password");
-            return View();
+            return View(guest);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SignOut()
+        {
+            var authManager = HttpContext.GetOwinContext().Authentication;
+            authManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

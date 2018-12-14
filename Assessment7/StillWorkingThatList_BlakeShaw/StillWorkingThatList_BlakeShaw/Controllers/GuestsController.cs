@@ -33,6 +33,7 @@ namespace StillWorkingThatList_BlakeShaw.Controllers
             ViewBag.CurrentFilter = searchString;
 
             var guests = from g in db.Guests
+                         where g.Attending
                          select g;
 
             if (!String.IsNullOrEmpty(searchString))
@@ -40,7 +41,7 @@ namespace StillWorkingThatList_BlakeShaw.Controllers
                 guests = guests
                             .Where(a => a.FirstName.Contains(searchString) || a.LastName.Contains(searchString) || a.Guest1.Contains(searchString));
             }
-            int pageSize = 2;
+            int pageSize = 5;
             int pageNumber = (page ?? 1);
             return View(guests.OrderBy(g => g.FirstName).ToPagedList(pageNumber, pageSize));
         }

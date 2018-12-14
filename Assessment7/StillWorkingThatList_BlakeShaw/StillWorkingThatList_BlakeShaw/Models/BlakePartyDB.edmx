@@ -27,6 +27,7 @@
           <Property Name="AttendanceDate" Type="datetime" />
           <Property Name="EmailAddress" Type="nvarchar" MaxLength="50" />
           <Property Name="Guest" Type="nvarchar" MaxLength="50" />
+          <Property Name="Attending" Type="bit" Nullable="false" />
         </EntityType>
         <Association Name="FK_Dish_Guest">
           <End Role="Guest" Type="Self.Guest" Multiplicity="0..1" />
@@ -84,6 +85,7 @@
           <Property Name="EmailAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Guest1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Dishes" Relationship="BlakePartyDBModel.FK_Dish_Guest" FromRole="Guest" ToRole="Dish" />
+          <Property Name="Attending" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_Dish_Guest">
           <End Type="BlakePartyDBModel.Guest" Role="Guest" Multiplicity="0..1" />
@@ -119,6 +121,7 @@
           <EntitySetMapping Name="Guests">
             <EntityTypeMapping TypeName="BlakePartyDBModel.Guest">
               <MappingFragment StoreEntitySet="Guest">
+                <ScalarProperty Name="Attending" ColumnName="Attending" />
                 <ScalarProperty Name="Guest1" ColumnName="Guest" />
                 <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
                 <ScalarProperty Name="AttendanceDate" ColumnName="AttendanceDate" />
