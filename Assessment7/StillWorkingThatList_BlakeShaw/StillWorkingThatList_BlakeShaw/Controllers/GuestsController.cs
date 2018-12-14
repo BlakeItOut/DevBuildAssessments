@@ -6,6 +6,9 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
 using PagedList;
 using StillWorkingThatList_BlakeShaw.Models;
 
@@ -13,6 +16,7 @@ namespace StillWorkingThatList_BlakeShaw.Controllers
 {
     public class GuestsController : Controller
     {
+        private UserManager<IdentityUser> _userManager => HttpContext.GetOwinContext().Get<UserManager<IdentityUser>>();
         private StillWorkingThatList_BlakeShawContext db = new StillWorkingThatList_BlakeShawContext();
 
         // GET: Guests

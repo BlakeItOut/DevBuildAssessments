@@ -11,6 +11,7 @@ using StillWorkingThatList_BlakeShaw.Models;
 
 namespace StillWorkingThatList_BlakeShaw.Controllers
 {
+    [Authorize]
     public class DishesController : Controller
     {
         private StillWorkingThatList_BlakeShawContext db = new StillWorkingThatList_BlakeShawContext();
@@ -29,6 +30,7 @@ namespace StillWorkingThatList_BlakeShaw.Controllers
 
             ViewBag.CurrentFilter = searchString;
             var dishes = from d in db.Dishes
+                         where d.Guest.EmailAddress == User.Identity.Name
                          select d;
 
             if (!String.IsNullOrEmpty(searchString))
@@ -60,17 +62,13 @@ namespace StillWorkingThatList_BlakeShaw.Controllers
         // GET: Dishes/Create
         public ActionResult Create()
         {
-            if(TempData.ContainsKey("Guest"))
+            Guest guest = db.Guests.FirstOrDefault(g => g.EmailAddress == User.Identity.Name);
+            var dish = new Dish()
             {
-                Guest guest = (Guest)TempData["Guest"];
-                var dish = new Dish()
-                {
-                    PersonName = $"{guest.FirstName} {guest.LastName}",
-                    GuestId = guest.GuestId
-                };
-                return View(dish);
-            }
-            return View();
+                PersonName = $"{guest.FirstName} {guest.LastName}",
+                GuestId = guest.GuestId
+            };
+            return View(dish);
         }
 
         // POST: Dishes/Create

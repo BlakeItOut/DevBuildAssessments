@@ -10,7 +10,7 @@ namespace StillWorkingThatList_BlakeShaw.Models
     {
         [Required]
         public string EmailAddress { get; set; }
-        [Required]
+        [Required, DataType(DataType.Password)]
         public string Password { get; set; }
     }
 }

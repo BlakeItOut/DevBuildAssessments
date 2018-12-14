@@ -259,6 +259,7 @@
     <Compile Include="Controllers\DishesController.cs" />
     <Compile Include="Controllers\GuestsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IdentityController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -302,6 +303,8 @@
     <Content Include="Views\Guests\Edit.cshtml" />
     <Content Include="Views\Guests\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Identity\Register.cshtml" />
+    <Content Include="Views\Identity\Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
