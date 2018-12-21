@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -24,7 +25,34 @@ namespace StillWorkingThatList_BlakeShaw.Controllers
         {
             var characters = GetCharacters(271);
             ViewBag.CharacterUrl = new SelectList(characters, "Url", "Name");
+
+            ViewBag.Joke = GetChuckNorrisJoke();
+
             return View();
+        }
+
+        public string GetChuckNorrisJoke()
+        {
+            var joke = "";
+
+            var serializer = new JsonSerializer();
+
+            HttpWebRequest characterRequest = WebRequest.CreateHttp("https://api.chucknorris.io/jokes/random?category=history");
+
+            characterRequest.UserAgent = "Mozilla / 5.0(Windows NT 6.1; Win64; x64; rv: 47.0) Gecko / 20100101 Firefox / 47.0";
+
+            HttpWebResponse characterResponse = (HttpWebResponse)characterRequest.GetResponse();
+
+            if (characterResponse.StatusCode == HttpStatusCode.OK)
+            {
+                using (var data = new StreamReader(characterResponse.GetResponseStream()))
+                using (var jsonReader = new JsonTextReader(data))
+                {
+                    joke = serializer.Deserialize<Joke>(jsonReader).value;
+                }
+
+            }
+            return joke;
         }
 
         public List<Character> GetCharacters(int houseId)

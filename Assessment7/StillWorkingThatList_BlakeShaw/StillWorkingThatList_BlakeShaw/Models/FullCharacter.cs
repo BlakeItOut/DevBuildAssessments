@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 
 namespace StillWorkingThatList_BlakeShaw.Models
@@ -24,6 +27,58 @@ namespace StillWorkingThatList_BlakeShaw.Models
         public List<string> TvSeries { get; set; }
         public List<string> PlayedBy { get; set; }
 
+        public string GetAllegiances()
+        {
+            var allegiances = new List<House>();
+            foreach (var url in Allegiances)
+            {
+                var serializer = new JsonSerializer();
+
+                HttpWebRequest characterRequest = WebRequest.CreateHttp(url);
+
+                characterRequest.UserAgent = "Mozilla / 5.0(Windows NT 6.1; Win64; x64; rv: 47.0) Gecko / 20100101 Firefox / 47.0";
+
+                HttpWebResponse characterResponse = (HttpWebResponse)characterRequest.GetResponse();
+
+                if (characterResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    using (var data = new StreamReader(characterResponse.GetResponseStream()))
+                    using (var jsonReader = new JsonTextReader(data))
+                    {
+                        allegiances.Add(serializer.Deserialize<House>(jsonReader));
+                    }
+
+                }
+            }
+            return string.Join(", ", allegiances.Select(h => h.name).ToArray());
+        }
+
+        public string GetBooks()
+        {
+            var books = new List<Book>();
+            foreach (var url in Books)
+            {
+                var serializer = new JsonSerializer();
+
+                HttpWebRequest characterRequest = WebRequest.CreateHttp(url);
+
+                characterRequest.UserAgent = "Mozilla / 5.0(Windows NT 6.1; Win64; x64; rv: 47.0) Gecko / 20100101 Firefox / 47.0";
+
+                HttpWebResponse characterResponse = (HttpWebResponse)characterRequest.GetResponse();
+
+                if (characterResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    using (var data = new StreamReader(characterResponse.GetResponseStream()))
+                    using (var jsonReader = new JsonTextReader(data))
+                    {
+                        books.Add(serializer.Deserialize<Book>(jsonReader));
+                    }
+
+                }
+            }
+            return string.Join(", ", books.Select(h => h.name).ToArray());
+        }
+
         public Character ToModel()
         { 
             return new Character()
@@ -37,8 +92,8 @@ namespace StillWorkingThatList_BlakeShaw.Models
                 Father = Father,
                 Mother = Mother,
                 Spouse = Spouse,
-                Book = string.Join(", ", Books.ToArray()),
-                Allegiance = string.Join(", ", Allegiances.ToArray()),
+                Book = GetBooks(),
+                Allegiance = GetAllegiances(),
             };
         }
     }

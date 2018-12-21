@@ -279,6 +279,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BlakePartyDB.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Book.cs" />
     <Compile Include="Models\Character.cs">
       <DependentUpon>BlakePartyDB.tt</DependentUpon>
     </Compile>
@@ -290,6 +291,7 @@
       <DependentUpon>BlakePartyDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\House.cs" />
+    <Compile Include="Models\Joke.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\Metadata.cs" />
     <Compile Include="Models\PartialClasses.cs" />
