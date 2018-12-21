@@ -1,14 +1,11 @@
 ﻿@model IEnumerable<StillWorkingThatList_BlakeShaw.Models.Character>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Characters";
 }
 
-<h2>Index</h2>
+<h2>Characters</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -77,9 +74,7 @@
             @Html.DisplayFor(modelItem => item.Book)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Url }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Url }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Url })
+            @Html.ActionLink("Details", "Details", new { id=item.Url.Split('/').Last() })
         </td>
     </tr>
 }

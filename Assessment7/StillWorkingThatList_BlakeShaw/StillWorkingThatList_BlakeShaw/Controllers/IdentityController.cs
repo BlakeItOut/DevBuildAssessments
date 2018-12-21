@@ -37,7 +37,7 @@ namespace StillWorkingThatList_BlakeShaw.Controllers
 
             var serializer = new JsonSerializer();
 
-            HttpWebRequest characterRequest = WebRequest.CreateHttp("https://api.chucknorris.io/jokes/random?category=history");
+            HttpWebRequest characterRequest = WebRequest.CreateHttp("https://api.chucknorris.io/jokes/random?category=food");
 
             characterRequest.UserAgent = "Mozilla / 5.0(Windows NT 6.1; Win64; x64; rv: 47.0) Gecko / 20100101 Firefox / 47.0";
 

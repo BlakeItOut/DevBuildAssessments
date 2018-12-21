@@ -4,15 +4,13 @@
     ViewBag.Title = "Add Dish";
 }
 
-<h2>Add Dish</h2>
+<h2>Bring a Dish</h2>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.GuestId)
 
     <div class="form-horizontal">
-        <h4>Dish</h4>
-        <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.PersonName, htmlAttributes: new { @class = "control-label col-md" })
@@ -56,7 +54,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Bring" class="btn btn-default" />
             </div>
         </div>
     </div>

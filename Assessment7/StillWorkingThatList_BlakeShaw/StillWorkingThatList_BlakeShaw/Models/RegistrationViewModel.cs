@@ -16,13 +16,13 @@ namespace StillWorkingThatList_BlakeShaw.Models
         public Nullable<System.DateTime> AttendanceDate { get; set; }
         [Required]
         public string Attending { get; set; }
-        [Display(Name = "Email"), EmailAddress]
+        [Required, Display(Name = "Email"), EmailAddress]
         public string EmailAddress { get; set; }
         [Display(Name = "Guest Name (if applicable)")]
         public string Guest1 { get; set; }
-        [DataType(DataType.Password), StringLength(100, MinimumLength = 6, ErrorMessage = "The {0} must be at least {2} characters long.")]
+        [Required, DataType(DataType.Password), StringLength(100, MinimumLength = 6, ErrorMessage = "The {0} must be at least {2} characters long.")]
         public string Password { get; set; }
-        [Display(Name = "Confirm Password"), DataType(DataType.Password), Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Required, Display(Name = "Confirm Password"), DataType(DataType.Password), Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
         [Display(Name = "Your Character")]
         public string CharacterUrl { get; set; }
