@@ -256,6 +256,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CharactersController.cs" />
     <Compile Include="Controllers\DishesController.cs" />
     <Compile Include="Controllers\GuestsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -278,12 +279,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BlakePartyDB.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Character.cs">
+      <DependentUpon>BlakePartyDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Dish.cs">
       <DependentUpon>BlakePartyDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\FullCharacter.cs" />
     <Compile Include="Models\Guest.cs">
       <DependentUpon>BlakePartyDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\House.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\Metadata.cs" />
     <Compile Include="Models\PartialClasses.cs" />
@@ -306,6 +312,11 @@
     <Content Include="Views\Identity\Register.cshtml" />
     <Content Include="Views\Identity\Login.cshtml" />
     <Content Include="Views\Shared\_Menu.cshtml" />
+    <Content Include="Views\Characters\Create.cshtml" />
+    <Content Include="Views\Characters\Delete.cshtml" />
+    <Content Include="Views\Characters\Details.cshtml" />
+    <Content Include="Views\Characters\Edit.cshtml" />
+    <Content Include="Views\Characters\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

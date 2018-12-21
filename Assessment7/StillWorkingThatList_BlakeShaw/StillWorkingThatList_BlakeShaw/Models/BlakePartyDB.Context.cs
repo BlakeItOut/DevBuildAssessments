@@ -27,5 +27,6 @@ namespace StillWorkingThatList_BlakeShaw.Models
     
         public virtual DbSet<Dish> Dishes { get; set; }
         public virtual DbSet<Guest> Guests { get; set; }
+        public virtual DbSet<Character> Characters { get; set; }
     }
 }

@@ -5,6 +5,22 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="BlakePartyDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Character">
+          <Key>
+            <PropertyRef Name="Url" />
+          </Key>
+          <Property Name="Url" Type="nvarchar" MaxLength="75" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="50" />
+          <Property Name="Culture" Type="nvarchar" MaxLength="50" />
+          <Property Name="Born" Type="nvarchar" MaxLength="50" />
+          <Property Name="Died" Type="nvarchar" MaxLength="50" />
+          <Property Name="Father" Type="nvarchar" MaxLength="50" />
+          <Property Name="Mother" Type="nvarchar" MaxLength="50" />
+          <Property Name="Spouse" Type="nvarchar" MaxLength="50" />
+          <Property Name="Allegiance" Type="nvarchar(max)" />
+          <Property Name="Book" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="Dish">
           <Key>
             <PropertyRef Name="DishId" />
@@ -28,6 +44,7 @@
           <Property Name="EmailAddress" Type="nvarchar" MaxLength="50" />
           <Property Name="Guest" Type="nvarchar" MaxLength="50" />
           <Property Name="Attending" Type="bit" Nullable="false" />
+          <Property Name="CharacterUrl" Type="nvarchar" MaxLength="75" />
         </EntityType>
         <Association Name="FK_Dish_Guest">
           <End Role="Guest" Type="Self.Guest" Multiplicity="0..1" />
@@ -41,12 +58,29 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Guest_Character">
+          <End Role="Character" Type="Self.Character" Multiplicity="0..1" />
+          <End Role="Guest" Type="Self.Guest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Character">
+              <PropertyRef Name="Url" />
+            </Principal>
+            <Dependent Role="Guest">
+              <PropertyRef Name="CharacterUrl" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="BlakePartyDBModelStoreContainer">
+          <EntitySet Name="Character" EntityType="Self.Character" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Dish" EntityType="Self.Dish" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Guest" EntityType="Self.Guest" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Dish_Guest" Association="Self.FK_Dish_Guest">
             <End Role="Guest" EntitySet="Guest" />
             <End Role="Dish" EntitySet="Dish" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Guest_Character" Association="Self.FK_Guest_Character">
+            <End Role="Character" EntitySet="Character" />
+            <End Role="Guest" EntitySet="Guest" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -59,6 +93,11 @@
           <AssociationSet Name="FK_Dish_Guest" Association="BlakePartyDBModel.FK_Dish_Guest">
             <End Role="Guest" EntitySet="Guests" />
             <End Role="Dish" EntitySet="Dishes" />
+          </AssociationSet>
+          <EntitySet Name="Characters" EntityType="BlakePartyDBModel.Character" />
+          <AssociationSet Name="FK_Guest_Character" Association="BlakePartyDBModel.FK_Guest_Character">
+            <End Role="Character" EntitySet="Characters" />
+            <End Role="Guest" EntitySet="Guests" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Dish">
@@ -86,6 +125,8 @@
           <Property Name="Guest1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Dishes" Relationship="BlakePartyDBModel.FK_Dish_Guest" FromRole="Guest" ToRole="Dish" />
           <Property Name="Attending" Type="Boolean" Nullable="false" />
+          <Property Name="CharacterUrl" Type="String" MaxLength="75" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Character" Relationship="BlakePartyDBModel.FK_Guest_Character" FromRole="Guest" ToRole="Character" />
         </EntityType>
         <Association Name="FK_Dish_Guest">
           <End Type="BlakePartyDBModel.Guest" Role="Guest" Multiplicity="0..1" />
@@ -96,6 +137,35 @@
             </Principal>
             <Dependent Role="Dish">
               <PropertyRef Name="GuestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Character">
+          <Key>
+            <PropertyRef Name="Url" />
+          </Key>
+          <Property Name="Url" Type="String" Nullable="false" MaxLength="75" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Culture" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Born" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Died" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Father" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Mother" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Spouse" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Allegiance" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Book" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Guests" Relationship="BlakePartyDBModel.FK_Guest_Character" FromRole="Character" ToRole="Guest" />
+        </EntityType>
+        <Association Name="FK_Guest_Character">
+          <End Type="BlakePartyDBModel.Character" Role="Character" Multiplicity="0..1" />
+          <End Type="BlakePartyDBModel.Guest" Role="Guest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Character">
+              <PropertyRef Name="Url" />
+            </Principal>
+            <Dependent Role="Guest">
+              <PropertyRef Name="CharacterUrl" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -121,6 +191,7 @@
           <EntitySetMapping Name="Guests">
             <EntityTypeMapping TypeName="BlakePartyDBModel.Guest">
               <MappingFragment StoreEntitySet="Guest">
+                <ScalarProperty Name="CharacterUrl" ColumnName="CharacterUrl" />
                 <ScalarProperty Name="Attending" ColumnName="Attending" />
                 <ScalarProperty Name="Guest1" ColumnName="Guest" />
                 <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
@@ -128,6 +199,23 @@
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="GuestId" ColumnName="GuestId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Characters">
+            <EntityTypeMapping TypeName="BlakePartyDBModel.Character">
+              <MappingFragment StoreEntitySet="Character">
+                <ScalarProperty Name="Book" ColumnName="Book" />
+                <ScalarProperty Name="Allegiance" ColumnName="Allegiance" />
+                <ScalarProperty Name="Spouse" ColumnName="Spouse" />
+                <ScalarProperty Name="Mother" ColumnName="Mother" />
+                <ScalarProperty Name="Father" ColumnName="Father" />
+                <ScalarProperty Name="Died" ColumnName="Died" />
+                <ScalarProperty Name="Born" ColumnName="Born" />
+                <ScalarProperty Name="Culture" ColumnName="Culture" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -12,25 +12,27 @@ namespace StillWorkingThatList_BlakeShaw.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Guest
+    public partial class Character
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Guest()
+        public Character()
         {
-            this.Dishes = new HashSet<Dish>();
+            this.Guests = new HashSet<Guest>();
         }
     
-        public int GuestId { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public Nullable<System.DateTime> AttendanceDate { get; set; }
-        public string EmailAddress { get; set; }
-        public string Guest1 { get; set; }
-        public bool Attending { get; set; }
-        public string CharacterUrl { get; set; }
+        public string Url { get; set; }
+        public string Name { get; set; }
+        public string Gender { get; set; }
+        public string Culture { get; set; }
+        public string Born { get; set; }
+        public string Died { get; set; }
+        public string Father { get; set; }
+        public string Mother { get; set; }
+        public string Spouse { get; set; }
+        public string Allegiance { get; set; }
+        public string Book { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Dish> Dishes { get; set; }
-        public virtual Character Character { get; set; }
+        public virtual ICollection<Guest> Guests { get; set; }
     }
 }

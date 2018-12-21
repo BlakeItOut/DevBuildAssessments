@@ -33,41 +33,50 @@
         <th>
             @Html.DisplayNameFor(model => model.FirstOrDefault().Guest1)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Character)
+        </th>
         <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AttendanceDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmailAddress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Guest1)
-            </td>
-            <td>
-                @if (User.Identity.Name == item.EmailAddress)
-                {
-                    @Html.ActionLink("Edit", "Edit", new { id = item.GuestId }) <span>|</span>
-                    @Html.ActionLink("Details", "Details", new { id = item.GuestId }) <span>|</span>
-                    @Html.ActionLink("Delete", "Delete", new { id = item.GuestId })
-                }
-                @if (User.Identity.Name != item.EmailAddress)
-                {
-                    @Html.ActionLink("Details", "Details", new { id = item.GuestId })
-                }
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AttendanceDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmailAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Guest1)
+        </td>
+        <td>
+            @if (item.CharacterUrl != null)
+            {
+                @Html.ActionLink(item.Character.Name, "Details", "Characters", new { id = item.CharacterUrl.Split('/').Last() }, null)
+            }
+        </td>
+        <td>
+            @if (User.Identity.Name == item.EmailAddress)
+            {
+                @Html.ActionLink("Edit", "Edit", new { id = item.GuestId }) <span>|</span>
+                @Html.ActionLink("Details", "Details", new { id = item.GuestId }) <span>|</span>
+                @Html.ActionLink("Delete", "Delete", new { id = item.GuestId })
+            }
+            @if (User.Identity.Name != item.EmailAddress)
+            {
+                @Html.ActionLink("Details", "Details", new { id = item.GuestId })
+            }
 
-            </td>
-        </tr>
+        </td>
+    </tr>
     }
 
 </table>

@@ -24,5 +24,7 @@ namespace StillWorkingThatList_BlakeShaw.Models
         public string Password { get; set; }
         [Display(Name = "Confirm Password"), DataType(DataType.Password), Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+        [Display(Name = "Your Character")]
+        public string CharacterUrl { get; set; }
     }
 }

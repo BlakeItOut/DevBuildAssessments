@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -9,6 +10,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using Newtonsoft.Json;
 using PagedList;
 using StillWorkingThatList_BlakeShaw.Models;
 
@@ -17,7 +19,8 @@ namespace StillWorkingThatList_BlakeShaw.Controllers
     public class GuestsController : Controller
     {
         private UserManager<IdentityUser> _userManager => HttpContext.GetOwinContext().Get<UserManager<IdentityUser>>();
-        private StillWorkingThatList_BlakeShawContext db = new StillWorkingThatList_BlakeShawContext();
+        private BlakePartyDBEntities db = new BlakePartyDBEntities();
+        private const string _userAgent = "Mozilla / 5.0(Windows NT 6.1; Win64; x64; rv: 47.0) Gecko / 20100101 Firefox / 47.0";
 
         // GET: Guests
         public ActionResult Index(string currentFilter, string searchString, int? page)
@@ -64,6 +67,50 @@ namespace StillWorkingThatList_BlakeShaw.Controllers
         // GET: Guests/Create
         public ActionResult Create()
         {
+            var house = new House();
+
+            var characters = new List<Character>();
+
+            HttpWebRequest houseRequest = WebRequest.CreateHttp($"https://www.anapioficeandfire.com/api/houses/271");
+
+            houseRequest.UserAgent = _userAgent;
+
+            HttpWebResponse houseResponse = (HttpWebResponse)houseRequest.GetResponse();
+
+            if (houseResponse.StatusCode == HttpStatusCode.OK)
+            {
+                var serializer = new JsonSerializer();
+
+                using (var data = new StreamReader(houseResponse.GetResponseStream()))
+                using (var jsonReader = new JsonTextReader(data))
+                {
+                    house = serializer.Deserialize<House>(jsonReader);
+                }
+
+                foreach (var url in house.swornMembers)
+                {
+                    HttpWebRequest characterRequest = WebRequest.CreateHttp(url);
+
+                    characterRequest.UserAgent = _userAgent;
+
+                    HttpWebResponse characterResponse = (HttpWebResponse)characterRequest.GetResponse();
+
+                    if (characterResponse.StatusCode == HttpStatusCode.OK)
+                    {
+                        using (var data = new StreamReader(characterResponse.GetResponseStream()))
+                        using (var jsonReader = new JsonTextReader(data))
+                        {
+                            characters.Add(serializer.Deserialize<Character>(jsonReader));
+                        }
+
+                    }
+                }
+            }
+
+            
+
+            
+            ViewBag.CharacterUrl = new SelectList(characters, "Url", "Name");
             return View();
         }
 
@@ -72,12 +119,34 @@ namespace StillWorkingThatList_BlakeShaw.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "GuestId,FirstName,LastName,AttendanceDate,EmailAddress,Guest1")] Guest guest, string Attending)
+        public ActionResult Create([Bind(Include = "GuestId,FirstName,LastName,AttendanceDate,EmailAddress,Guest1,CharcterUrl")] Guest guest, string Attending)
         {
             if (ModelState.IsValid)
             {
                 if(Attending == "Yes")
                 {
+                    if (db.Characters.Find(guest.CharacterUrl) == null)
+                    {
+                        var serializer = new JsonSerializer();
+
+                        HttpWebRequest characterRequest = WebRequest.CreateHttp(guest.CharacterUrl);
+
+                        characterRequest.UserAgent = _userAgent;
+
+                        HttpWebResponse characterResponse = (HttpWebResponse)characterRequest.GetResponse();
+
+                        if (characterResponse.StatusCode == HttpStatusCode.OK)
+                        {
+                            using (var data = new StreamReader(characterResponse.GetResponseStream()))
+                            using (var jsonReader = new JsonTextReader(data))
+                            {
+                                var fullCharacter = serializer.Deserialize<FullCharacter>(jsonReader);
+                                db.Characters.Add(fullCharacter.ToModel());
+                            }
+
+                        }
+                    }
+                    
                     db.Guests.Add(guest);
                     db.SaveChanges();
                     TempData["Guest"] = guest;
@@ -113,7 +182,7 @@ namespace StillWorkingThatList_BlakeShaw.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "GuestId,FirstName,LastName,AttendanceDate,EmailAddress,Guest1")] Guest guest)
+        public ActionResult Edit([Bind(Include = "GuestId,FirstName,LastName,AttendanceDate,EmailAddress,Guest1,CharacterUrl")] Guest guest)
         {
             if (ModelState.IsValid)
             {

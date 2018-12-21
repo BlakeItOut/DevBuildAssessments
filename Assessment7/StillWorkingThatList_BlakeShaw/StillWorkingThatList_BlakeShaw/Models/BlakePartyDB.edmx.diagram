@@ -8,6 +8,8 @@
         <EntityTypeShape EntityType="BlakePartyDBModel.Dish" Width="1.5" PointX="3" PointY="1" />
         <EntityTypeShape EntityType="BlakePartyDBModel.Guest" Width="1.5" PointX="0.75" PointY="1" />
         <AssociationConnector Association="BlakePartyDBModel.FK_Dish_Guest" />
+        <EntityTypeShape EntityType="BlakePartyDBModel.Character" Width="1.5" PointX="0.75" PointY="4.75" />
+        <AssociationConnector Association="BlakePartyDBModel.FK_Guest_Character" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
