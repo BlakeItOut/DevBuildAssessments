@@ -155,6 +155,7 @@ namespace StillWorkingThatList_BlakeShaw.Controllers
             }
             var characters = GetCharacters(271);
             ViewBag.CharacterUrl = new SelectList(characters, "Url", "Name");
+            ViewBag.Joke = GetChuckNorrisJoke();
             return View(newUser);
         }
 
