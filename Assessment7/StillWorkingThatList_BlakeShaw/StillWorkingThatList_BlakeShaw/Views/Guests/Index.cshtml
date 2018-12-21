@@ -55,9 +55,17 @@
                 @Html.DisplayFor(modelItem => item.Guest1)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.GuestId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.GuestId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.GuestId })
+                @if (User.Identity.Name == item.EmailAddress)
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = item.GuestId }) <span>|</span>
+                    @Html.ActionLink("Details", "Details", new { id = item.GuestId }) <span>|</span>
+                    @Html.ActionLink("Delete", "Delete", new { id = item.GuestId })
+                }
+                @if (User.Identity.Name != item.EmailAddress)
+                {
+                    @Html.ActionLink("Details", "Details", new { id = item.GuestId })
+                }
+
             </td>
         </tr>
     }

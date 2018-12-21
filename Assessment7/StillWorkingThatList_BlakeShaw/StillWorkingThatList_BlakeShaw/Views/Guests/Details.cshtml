@@ -11,14 +11,6 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Dish.PersonName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Dish.PersonName)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.FirstName)
         </dt>
 
@@ -61,6 +53,9 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.GuestId }) |
+    @if (User.Identity.Name == Model.EmailAddress)
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.GuestId }) <span>| </span>
+    }
     @Html.ActionLink("Back to List", "Index")
 </p>
